@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نموذج شحنة</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            direction: rtl;
+            background-color: #2c2f36; /* خلفية داكنة */
+            color: #fff; /* النص أبيض */
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #343a40; /* لون الخلفية الغامق */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #58c2ff; /* أزرق سماوي للنص */
+        }
+
+        label {
+            font-size: 16px;
+            margin-bottom: 5px;
+            display: block;
+            color: #fff; /* النص أبيض */
+        }
+
+        input[type="text"], input[type="file"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: 1px solid #6a1b9a; /* اللون البنفسجي للحدود */
+            border-radius: 4px;
+            background-color: #333; /* خلفية الحقول داكنة */
+            color: #fff; /* النص أبيض في الحقول */
+        }
+
+        input[type="text"]:focus, input[type="file"]:focus, input[type="number"]:focus {
+            border-color: #58c2ff; /* أزرق عند التركيز */
+            background-color: #444; /* خلفية داكنة عند التركيز */
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #4CAF50; /* أخضر للزر */
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #388e3c; /* أخضر داكن عند المرور */
+        }
+
+        .message {
+            font-size: 14px;
+            color: #f44336; /* أحمر للتنبيهات */
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .logo {
+            display: block;
+            margin: 0 auto;
+            width: 150px;
+            height: auto;
+        }
+
+        .creative-name {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: #D500F9; /* بنفسجي ساطع */
+            margin: 20px 0;
+        }
+
+        .location-radio {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <img class="logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmW9tJ0pGkrlqojB3-6syfDv2Cd9y4drud4Q&s" alt="Creative Logo">
+    
+    <!-- اسم كريتيف في وسط الموقع -->
+    <div class="creative-name">
+        مرحباً في شركة كريتيف
+    </div>
+
+    <form id="shipmentForm">
+        <h2>تفاصيل الشحنة</h2>
+
+        <!-- حقل عدد الشحنات -->
+        <label for="shipmentCount">عدد الشحنات:</label>
+        <input type="number" id="shipmentCount" name="shipmentCount" placeholder="أدخل عدد الشحنات" required>
+
+        <label for="shipperName">اسم الشاحن:</label>
+        <input type="text" id="shipperName" name="shipperName" placeholder="أدخل اسم الشاحن" required>
+
+        <label for="fromLocation">من أين الشحنة؟:</label>
+        <input type="text" id="fromLocation" name="fromLocation" placeholder="أدخل مكان انطلاق الشحنة" required>
+
+        <label for="toLocation">إلى أين الشحنة؟:</label>
+        <input type="text" id="toLocation" name="toLocation" placeholder="أدخل وجهة الشحنة" required>
+
+        <label>موقع الشحنة:</label>
+        <div class="location-radio">
+            <label for="insideCairo">
+                <input type="radio" id="insideCairo" name="shipmentLocation" value="داخل القاهرة" required>
+                داخل القاهرة
+            </label>
+            <label for="outsideCairo">
+                <input type="radio" id="outsideCairo" name="shipmentLocation" value="خارج القاهرة">
+                خارج القاهرة
+            </label>
+        </div>
+
+        <button type="button" id="sendToWhatsApp">إرسال إلى WhatsApp</button>
+
+        <p class="message" id="message"></p>
+    </form>
+
+    <script>
+        document.getElementById('sendToWhatsApp').addEventListener('click', function() {
+            var shipmentCount = document.getElementById('shipmentCount').value;
+            var shipperName = document.getElementById('shipperName').value;
+            var fromLocation = document.getElementById('fromLocation').value;
+            var toLocation = document.getElementById('toLocation').value;
+            var shipmentLocation = document.querySelector('input[name="shipmentLocation"]:checked');
+
+            // إذا لم يكن قد تم اختيار الموقع
+            if (!shipmentLocation) {
+                document.getElementById('message').textContent = 'يرجى تحديد مكان الشحنة (داخل أو خارج القاهرة).';
+                document.getElementById('message').style.color = 'red';
+                return;
+            }
+
+            // بناء نص الرسالة
+            var message = `تفاصيل الشحنة:\nعدد الشحنات: ${shipmentCount}\nاسم الشاحن: ${shipperName}\nمن: ${fromLocation}\nإلى: ${toLocation}\nموقع الشحنة: ${shipmentLocation.value}`;
+
+            // رقم الهاتف الذي سيتم إرسال الرسالة إليه (استبدله برقمك)
+            var phoneNumber = '201551659001'; 
+
+            // إنشاء رابط WhatsApp
+            var whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+            // التحقق من وجود بيانات
+            if (shipmentCount && shipperName && fromLocation && toLocation && shipmentLocation) {
+                // فتح الرابط في WhatsApp
+                window.open(whatsappLink, '_blank');
+            } else {
+                // عرض رسالة تنبيه إذا كانت البيانات غير مكتملة
+                document.getElementById('message').textContent = 'يرجى ملء جميع الحقول.';
+                document.getElementById('message').style.color = 'red';
+            }
+        });
+    </script>
+
+</body>
+</html>
